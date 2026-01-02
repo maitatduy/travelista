@@ -7,6 +7,8 @@ const path = require("path");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Cấu hình static files trong Express
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
