@@ -1,7 +1,18 @@
 const express = require("express");
 const app = express();
-const port = 3000;
 const path = require("path");
+
+require("dotenv").config();
+const database = require("./config/database.config");
+const port = process.env.PORT || 3000;
+
+// Kết nối database
+database.connect()
+    .then(() => {
+        app.listen(port, () => {
+            console.log("Express server listening on port " + port);
+        });
+    });
 
 // Cấu hình Express dùng Pug
 app.set('views', path.join(__dirname, 'views'));
@@ -12,8 +23,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
-});
-
-app.listen(port, () => {
-    console.log("Express server listening on port " + port);
 });
