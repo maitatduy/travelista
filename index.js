@@ -31,4 +31,4 @@ app.locals.pathAdmin = variableConfig.pathAdmin;
 
 // Thiết lập đường dẫn
 app.use("/", clientRoutes);
-app.use("/admin", adminRoutes);
+app.use(`/${variableConfig.pathAdmin}`, adminRoutes);
