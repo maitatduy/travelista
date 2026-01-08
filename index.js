@@ -6,6 +6,7 @@ require("dotenv").config();
 const database = require("./config/database.config");
 const port = process.env.PORT || 3000;
 
+const adminRoutes = require("./routes/admin/index.route");
 const clientRoutes = require("./routes/client/index.route");
 
 // Kết nối database
@@ -25,3 +26,4 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Thiết lập đường dẫn
 app.use("/", clientRoutes);
+app.use("/admin", adminRoutes);
