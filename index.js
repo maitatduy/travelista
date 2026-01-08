@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
+const variableConfig = require("./config/variable.config");
+
 require("dotenv").config();
 const database = require("./config/database.config");
 const port = process.env.PORT || 3000;
@@ -23,6 +25,9 @@ app.set('view engine', 'pug');
 
 // Cấu hình static files trong Express
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Tạo biến toàn cục trong file pug
+app.locals.pathAdmin = variableConfig.pathAdmin;
 
 // Thiết lập đường dẫn
 app.use("/", clientRoutes);
