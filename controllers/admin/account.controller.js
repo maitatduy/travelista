@@ -15,3 +15,15 @@ module.exports.forgotPassword = async (req, res) => {
         pageTitle: "Trang quên mật khẩu"
     });
 }
+
+module.exports.otpPassword = async (req, res) => {
+    res.render("admin/pages/otp-password", {
+        pageTitle: "Trang quên mật khẩu"
+    });
+}
+
+module.exports.resetPassword = async (req, res) => {
+    res.render("admin/pages/reset-password", {
+        pageTitle: "Trang đổi mật khẩu"
+    });
+}
