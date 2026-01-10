@@ -121,11 +121,13 @@ if (registerForm) {
             const fullName = event.target.fullName.value;
             const email = event.target.email.value;
             const password = event.target.password.value;
+            const agree = document.querySelector("#agree").checked;
 
             const data = {
                 fullName,
                 email,
                 password,
+                agree
             }
 
             fetch("/admin/account/register", {

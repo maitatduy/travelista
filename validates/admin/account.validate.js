@@ -52,6 +52,7 @@ module.exports.registerPost = (req, res, next) => {
 
         agree: Joi.boolean()
             .valid(true)
+            .truthy("on")
             .required()
             .messages({
                 "any.only": "Bạn phải đồng ý với các điều khoản và điều kiện!",
