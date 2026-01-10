@@ -19,6 +19,9 @@ database.connect()
         });
     });
 
+// Cho phép client có thể gửi data dạng JSON
+app.use(express.json());
+
 // Cấu hình Express dùng Pug
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
