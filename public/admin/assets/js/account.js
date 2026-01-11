@@ -44,10 +44,27 @@ if (loginForm) {
             const email = event.target.email.value;
             const password = event.target.password.value;
             const rememberPassword = event.target.rememberPassword.checked;
+            const data = {
+                email, password
+            }
 
-            console.log(email);
-            console.log(password);
-            console.log(rememberPassword);
+            fetch(`/${pathAdmin}/account/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code === "error") {
+                        return alert(data.message);
+                    }
+                    if (data.code === "success") {
+                        alert(data.message);
+                        window.location.href = `/${pathAdmin}/account/dashboard`;
+                    }
+                });
         })
     ;
 }
