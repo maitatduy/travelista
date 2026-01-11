@@ -62,7 +62,7 @@ if (loginForm) {
                     }
                     if (data.code === "success") {
                         alert(data.message);
-                        window.location.href = `/${pathAdmin}/account/dashboard`;
+                        window.location.href = `/${pathAdmin}/dashboard`;
                     }
                 });
         })

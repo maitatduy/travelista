@@ -1,4 +1,5 @@
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const AccountAdmin = require("../../models/account-admin.model");
 
 module.exports.login = async (req, res) => {
@@ -8,12 +9,64 @@ module.exports.login = async (req, res) => {
 }
 
 module.exports.loginPost = async (req, res) => {
-    const {email, password} = req.body;
-    console.log(email, password);
-    return res.json({
-        code: "success",
-        message: "Đăng nhập thành công!"
-    })
+    try {
+        const {email, password} = req.body;
+        const existAccount = await AccountAdmin.findOne({
+            email
+        });
+
+        if (!existAccount) {
+            return res.json({
+                code: "error",
+                message: "Email không tồn tại trong hệ thống!"
+            });
+        }
+        const isPasswordValid = await bcrypt.compare(password, existAccount.password);
+
+        if (!isPasswordValid) {
+            return res.json({
+                code: "error",
+                message: "Email hoặc mật khẩu không chính xác!"
+            });
+        }
+
+        if (existAccount.status !== "active") {
+            return res.json({
+                code: "error",
+                message: "Tài khoản chưa được kích hoạt!"
+            });
+        }
+
+        // Tạo JWT
+        const token = jwt.sign(
+            {
+                id: existAccount.id,
+                email: existAccount.email,
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1h"
+            }
+        );
+
+        // Lưu token vào cookie
+        res.cookie("token", token, {
+            maxAge: 24 * 60 * 60 * 1000,
+            httpOnly: true,
+            sameSite: "strict"
+        });
+
+        return res.json({
+            code: "success",
+            message: "Đã đăng nhập thành công!"
+        })
+
+    } catch (error) {
+        return res.json({
+            code: "error",
+            message: "Lỗi hệ thống!"
+        })
+    }
 }
 
 module.exports.register = async (req, res) => {
