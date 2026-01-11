@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const cookieParser = require("cookie-parser");
 
 const variableConfig = require("./config/variable.config");
 
@@ -31,6 +32,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Tạo biến toàn cục trong file pug
 app.locals.pathAdmin = variableConfig.pathAdmin;
+
+// Tạo biến toàn cục trong file backend
+global.pathAdmin = variableConfig.pathAdmin;
+
+// Khai báo middleware cookie-parser
+app.use(cookieParser());
 
 // Thiết lập đường dẫn
 app.use("/", clientRoutes);
