@@ -622,3 +622,20 @@ if (sider) {
     })
 }
 // End Sider
+
+// Logout
+const button = document.querySelector(".inner-logout");
+if (button) {
+    button.addEventListener("click", () => {
+        fetch(`/${pathAdmin}/account/logout`, {
+            method: "POST",
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.code === "success") {
+                    window.location.href = `/${pathAdmin}/account/login`;
+                }
+            })
+    });
+}
+// End Logout
