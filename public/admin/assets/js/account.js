@@ -45,7 +45,7 @@ if (loginForm) {
             const password = event.target.password.value;
             const rememberPassword = event.target.rememberPassword.checked;
             const data = {
-                email, password
+                email, password, rememberPassword
             }
 
             fetch(`/${pathAdmin}/account/login`, {

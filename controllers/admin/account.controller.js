@@ -10,7 +10,7 @@ module.exports.login = async (req, res) => {
 
 module.exports.loginPost = async (req, res) => {
     try {
-        const {email, password} = req.body;
+        const {email, password, rememberPassword} = req.body;
         const existAccount = await AccountAdmin.findOne({
             email
         });
@@ -45,13 +45,13 @@ module.exports.loginPost = async (req, res) => {
             },
             process.env.JWT_SECRET,
             {
-                expiresIn: "1h"
+                expiresIn: rememberPassword ? "30d" : "1d"
             }
         );
 
         // Lưu token vào cookie
         res.cookie("token", token, {
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: rememberPassword ? (30 * 24 * 60 * 60 * 1000) : (24 * 60 * 60 * 1000),
             httpOnly: true,
             sameSite: "strict"
         });
