@@ -61,7 +61,6 @@ if (loginForm) {
                         return alert(data.message);
                     }
                     if (data.code === "success") {
-                        alert(data.message);
                         window.location.href = `/${pathAdmin}/dashboard`;
                     }
                 });
@@ -160,7 +159,6 @@ if (registerForm) {
                         return alert(data.message);
                     }
                     if (data.code === "success") {
-                        alert(data.message);
                         window.location.href = `/${pathAdmin}/account/register-initial`;
                     }
                 });
