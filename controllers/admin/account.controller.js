@@ -276,7 +276,7 @@ module.exports.otpPasswordPost = async (req, res) => {
         },
         process.env.JWT_SECRET,
         {
-            expiresIn: rememberPassword ? "30d" : "1d"
+            expiresIn: "1d"
         }
     );
 
@@ -286,7 +286,7 @@ module.exports.otpPasswordPost = async (req, res) => {
         httpOnly: true,
         sameSite: "strict"
     });
-    
+
     return res.json({
         code: "success",
         message: "Xác thực OTP thành công"
