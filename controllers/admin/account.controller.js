@@ -1,6 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const AccountAdmin = require("../../models/account-admin.model");
+const generateHelper = require("../../helpers/generate.helper");
+const mailHelper = require("../../helpers/mail.helper");
+const ForgotPassword = require("../../models/forgot-password.model");
 
 module.exports.login = async (req, res) => {
     res.render("admin/pages/login", {
@@ -119,6 +122,125 @@ module.exports.registerPost = async (req, res) => {
 module.exports.forgotPassword = async (req, res) => {
     res.render("admin/pages/forgot-password", {
         pageTitle: "Trang quên mật khẩu"
+    });
+}
+
+module.exports.forgotPasswordPost = async (req, res) => {
+    const {email} = req.body;
+
+    // Kiểm tra xem email có tồn tại hay không
+    const existAccount = await AccountAdmin.findOne({
+        email: email
+    });
+    if (!existAccount) {
+        return res.json({
+            code: "error",
+            messages: "Email không tồn tại trong hệ thống!"
+        });
+    }
+
+    // Kiểm tra email đã gửi OTP hay chưa
+    const existEmailInFogotPassword = await ForgotPassword.findOne({
+        email: email
+    });
+
+    if (existEmailInFogotPassword) {
+        return res.json({
+            code: "error",
+            message: "Vui lòng gửi lại yêu cầu sau 5 phút!"
+        });
+    }
+
+    // Tạo mã OTP
+    const otp = generateHelper.generateRandomNumber(6);
+
+    // Lưu email và otp vào database. Sau năm phút sẽ tự động xóa bản ghi
+    const newRecord = new ForgotPassword({
+        email: email,
+        otp: otp,
+        expireAt: Date.now() + 5 * 60 * 1000
+    });
+    await newRecord.save();
+
+    // Gửi email tự động cho người dùng
+    const subject = "Travelista - Mã OTP lấy lại mật khẩu";
+
+    const content = `
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8; padding:40px 0; font-family:Arial, Helvetica, sans-serif;">
+  <tr>
+    <td align="center">
+      <table width="480" cellpadding="0" cellspacing="0" style="background-color:#ffffff; border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+        
+        <!-- Header -->
+        <tr>
+          <td style="background-color:#0d6efd; padding:20px; text-align:center; color:#ffffff;">
+            <h2 style="margin:0; font-size:22px;">Travelista</h2>
+            <p style="margin:10px 0 0; font-size:16px;">Xác thực lấy lại mật khẩu</p>
+          </td>
+        </tr>
+
+        <!-- Body -->
+        <tr>
+          <td style="padding:30px;">
+            <p style="font-size:15px; color:#333333;">
+              Travelista xin chào,
+            </p>
+
+            <p style="font-size:15px; color:#333333;">
+              Bạn đã yêu cầu lấy lại mật khẩu. Vui lòng sử dụng mã OTP bên dưới để tiếp tục:
+            </p>
+
+            <!-- OTP Box -->
+            <div style="margin:25px 0; text-align:center;">
+              <span style="
+                display:inline-block;
+                font-size:28px;
+                letter-spacing:6px;
+                font-weight:bold;
+                color:#0d6efd;
+                padding:12px 24px;
+                border:2px dashed #0d6efd;
+                border-radius:6px;
+              ">
+                ${otp}
+              </span>
+            </div>
+
+            <p style="font-size:14px; color:#555555;">
+              Mã OTP có hiệu lực trong <b>5 phút</b>.
+            </p>
+
+            <p style="font-size:14px; color:#999999;">
+              Vui lòng <b>không chia sẻ mã này</b> cho bất kỳ ai để đảm bảo an toàn tài khoản.
+            </p>
+
+            <hr style="border:none; border-top:1px solid #eeeeee; margin:25px 0;">
+
+            <p style="font-size:12px; color:#999999; text-align:center;">
+              Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="background-color:#f8f9fa; padding:15px; text-align:center; font-size:12px; color:#777777;">
+            © ${new Date().getFullYear()} Travelista. All rights reserved.
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+`;
+
+
+    mailHelper.sendMail(email, subject, content);
+
+    return res.json({
+        code: "success",
+        message: "Đã gửi mã OTP qua email!"
     });
 }
 
