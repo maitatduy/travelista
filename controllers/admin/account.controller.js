@@ -250,6 +250,49 @@ module.exports.otpPassword = async (req, res) => {
     });
 }
 
+module.exports.otpPasswordPost = async (req, res) => {
+    const {otp, email} = req.body;
+    // Kiểm tra có tồn tại bản ghi trong ForgotPassword không
+    const existRecord = await ForgotPassword.findOne({
+        otp: otp,
+        email: email
+    });
+
+    if (!existRecord) {
+        return res.json({
+            code: "error",
+            message: "Mã OTP không chính xác!"
+        });
+    }
+    // Tìm thông tin của người dùng trong AccountAdmin
+    const account = await AccountAdmin.findOne({
+        email: email
+    });
+    // Tạo JWT
+    const token = jwt.sign(
+        {
+            id: account.id,
+            email: account.email,
+        },
+        process.env.JWT_SECRET,
+        {
+            expiresIn: rememberPassword ? "30d" : "1d"
+        }
+    );
+
+    // Lưu token vào cookie
+    res.cookie("token", token, {
+        maxAge: 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: "strict"
+    });
+    
+    return res.json({
+        code: "success",
+        message: "Xác thực OTP thành công"
+    });
+}
+
 module.exports.resetPassword = async (req, res) => {
     res.render("admin/pages/reset-password", {
         pageTitle: "Trang đổi mật khẩu"
