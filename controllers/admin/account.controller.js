@@ -299,6 +299,24 @@ module.exports.resetPassword = async (req, res) => {
     });
 }
 
+module.exports.resetPasswordPost = async (req, res) => {
+    const {password} = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await AccountAdmin.updateOne({
+        _id: req.account.id,
+        deleted: false,
+        status: "active"
+    }, {
+        password: hashedPassword
+    });
+
+    return res.json({
+        code: "success",
+        message: "Đổi mật khẩu thành công!"
+    });
+}
+
 module.exports.logoutPost = async (req, res) => {
     res.clearCookie("token");
     return res.json({
