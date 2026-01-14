@@ -120,3 +120,75 @@ module.exports.loginPost = (req, res, next) => {
     next();
 
 }
+
+module.exports.forgotPasswordPost = (req, res, next) => {
+    const forgotPasswordSchema = Joi.object({
+        email: Joi.string()
+            .email()
+            .required()
+            .messages({
+                "string.empty": "Vui lòng nhập email của bạn!",
+                "string.email": "Email không đúng định dạng!",
+                "any.required": "Vui lòng nhập email của bạn!"
+            }),
+    });
+    const {error} = forgotPasswordSchema.validate(req.body);
+    if (error) {
+        return res.json({
+            code: "error",
+            message: error.details[0].message
+        });
+    }
+    next();
+
+}
+
+module.exports.otpPasswordPost = (req, res, next) => {
+    const otpPasswordSchema = Joi.object({
+        otp: Joi.string()
+            .required()
+            .messages({
+                'string.empty': 'Vui lòng nhập mã OTP!',
+            }),
+    });
+    const {error} = otpPasswordSchema.validate(req.body);
+    if (error) {
+        return res.json({
+            code: "error",
+            message: error.details[0].message
+        });
+    }
+    next();
+}
+
+module.exports.resetPasswordPost = (req, res, next) => {
+    const resetPasswordSchema = Joi.object({
+        password: Joi.string()
+            .min(8)
+            .pattern(/[A-Z]/)
+            .pattern(/[a-z]/)
+            .pattern(/\d/)
+            .pattern(/[@$!%*?&]/)
+            .required()
+            .messages({
+                'string.min': 'Mật khẩu phải chứa ít nhất 8 ký tự!',
+                'string.pattern.base': 'Mật khẩu phải đủ mạnh!',
+            }),
+
+        confirmPassword: Joi.string()
+            .valid(Joi.ref('password'))
+            .required()
+            .messages({
+                'any.only': 'Mật khẩu xác nhận không khớp!',
+                'any.required': 'Vui lòng xác nhận mật khẩu!',
+            }),
+    });
+    const {error} = resetPasswordSchema.validate(req.body);
+    if (error) {
+        return res.json({
+            code: "error",
+            message: error.details[0].message
+        });
+    }
+    next();
+}
