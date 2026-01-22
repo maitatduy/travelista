@@ -4,7 +4,7 @@ module.exports.createPost = (req, res, next) => {
     const categorySchema = Joi.object({
         name: Joi.string()
             .required()
-            .message({
+            .messages({
                 "string.empty": "Vui lòng nhập tên danh mục"
             }),
         parent: Joi.string().allow(""),
