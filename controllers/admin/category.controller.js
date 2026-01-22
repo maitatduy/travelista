@@ -1,4 +1,5 @@
 const Category = require("../../models/category.model");
+const categoryHelper = require("../../helpers/category.helper");
 
 module.exports.list = async function (req, res) {
     res.render("admin/pages/category-list", {
@@ -7,8 +8,15 @@ module.exports.list = async function (req, res) {
 }
 
 module.exports.create = async function (req, res) {
+    const categoryList = await Category.find({
+        deleted: false
+    });
+
+    const categoryTree = categoryHelper.buildCategoryTree(categoryList);
+
     res.render("admin/pages/category-create", {
-        pageTitle: "Trang tạo danh mục"
+        pageTitle: "Trang tạo danh mục",
+        categoryList: categoryTree
     });
 }
 
