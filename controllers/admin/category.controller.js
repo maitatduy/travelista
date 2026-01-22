@@ -39,9 +39,10 @@ module.exports.createPost = async function (req, res) {
     const newCategory = new Category(req.body);
     await newCategory.save();
 
-    return res.json({
-        code: "success",
-        message: "Tạo danh mục thành công!"
+    req.flash("success", "Tạo danh mục thành công!");
+
+    res.json({
+        code: "success"
     });
 
 }

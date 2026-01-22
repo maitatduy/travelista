@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+
 const cookieParser = require("cookie-parser");
+const flash = require('express-flash');
+const session = require('express-session');
 
 const variableConfig = require("./config/variable.config");
 
@@ -38,6 +41,17 @@ global.pathAdmin = variableConfig.pathAdmin;
 
 // Khai báo middleware cookie-parser
 app.use(cookieParser());
+app.use(session({
+    name: 'sid',
+    secret: 'f8c4e1a9b7d2c6f3a0e5b9d1c7a2f4e8',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        maxAge: 60000
+    }
+}));
+app.use(flash());
 
 // Thiết lập đường dẫn
 app.use("/", clientRoutes);
