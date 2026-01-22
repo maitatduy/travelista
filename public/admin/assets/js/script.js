@@ -167,7 +167,7 @@ if (categoryCreateForm) {
             formData.append("parent", parent);
             formData.append("position", position);
             formData.append("status", status);
-            formData.append("avatars", avatars);
+            formData.append("avatar", avatar);
             formData.append("description", description);
 
             fetch(`/${pathAdmin}/category/create`, {

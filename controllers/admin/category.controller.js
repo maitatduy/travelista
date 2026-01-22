@@ -22,10 +22,15 @@ module.exports.createPost = async function (req, res) {
 
     req.body.createdBy = req.account.id;
     req.body.updatedBy = req.account.id;
+    if (req.file) {
+        req.body.avatar = req.file.path;
+    } else {
+        req.body.avatar = "";
+    }
 
     const newCategory = new Category(req.body);
     await newCategory.save();
-    
+
     return res.json({
         code: "success",
         message: "Tạo danh mục thành công!"
