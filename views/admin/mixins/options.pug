@@ -2,4 +2,4 @@ mixin option(categories, prefix = '')
     each item in categories
         option(value=item.id)= prefix + item.name
         if item.children && item.children.length
-            +option(item.children, prefix + '--')
+            +option(item.children, prefix + '-- ')

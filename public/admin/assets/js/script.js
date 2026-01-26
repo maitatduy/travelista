@@ -155,7 +155,7 @@ if (categoryCreateForm) {
             const parent = event.target.parent.value;
             const position = event.target.position.value;
             const status = event.target.status.value;
-            const avatars = filePond.avatar.getFiles();
+            let avatars = filePond.avatar.getFiles();
             let avatar = null;
             if (avatars.length > 0) {
                 avatar = avatars[0].file;
