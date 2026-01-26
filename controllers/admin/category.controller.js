@@ -52,7 +52,6 @@ module.exports.create = async function (req, res) {
 };
 
 module.exports.createPost = async function (req, res) {
-    console.log(req.body.status);
     if (req.body.position !== undefined && req.body.position !== "") {
         req.body.position = Number(req.body.position);
     } else {
@@ -76,4 +75,67 @@ module.exports.createPost = async function (req, res) {
     res.json({
         code: "success",
     });
+};
+
+module.exports.edit = async function (req, res) {
+    try {
+        const categoryList = await Category.find({
+            deleted: false,
+        });
+
+        const categoryTree = categoryHelper.buildCategoryTree(categoryList);
+
+        const id = req.params.id;
+
+        const categoryDetail = await Category.findOne({
+            _id: id,
+        });
+
+        res.render("admin/pages/category-edit", {
+            pageTitle: "Trang chỉnh sửa",
+            categoryList: categoryTree,
+            categoryDetail: categoryDetail,
+        });
+    } catch (error) {
+        res.redirect(`/${pathAdmin}/category/list`);
+    }
+};
+
+module.exports.editPatch = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        if (req.body.position !== undefined && req.body.position !== "") {
+            req.body.position = Number(req.body.position);
+        } else {
+            const totalRecord = await Category.countDocuments();
+            req.body.position = totalRecord + 1;
+        }
+
+        req.body.updatedBy = req.account.id;
+        if (req.file) {
+            req.body.avatar = req.file.path;
+        } else {
+            delete req.body.avatar;
+        }
+
+        await Category.updateOne(
+            {
+                _id: id,
+                deleted: false,
+            },
+            req.body,
+        );
+
+        req.flash("success", "Cập nhật danh mục thành công!");
+
+        res.json({
+            code: "success",
+        });
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không hợp lệ!",
+        });
+    }
 };

@@ -7,19 +7,21 @@ if (buttonMenuMobile) {
     buttonMenuMobile.addEventListener("click", () => {
         sider.classList.add("active");
         siderOverlay.classList.add("active");
-    })
+    });
 
     siderOverlay.addEventListener("click", () => {
         sider.classList.remove("active");
         siderOverlay.classList.remove("active");
-    })
+    });
 }
 // End Menu Mobile
 
 // Schedule Section 8
 const scheduleSection8 = document.querySelector(".section-8 .inner-schedule");
 if (scheduleSection8) {
-    const buttonCreate = scheduleSection8.querySelector(".inner-schedule-create");
+    const buttonCreate = scheduleSection8.querySelector(
+        ".inner-schedule-create",
+    );
     const listItem = scheduleSection8.querySelector(".inner-schedule-list");
 
     // Tạo mới
@@ -36,27 +38,29 @@ if (scheduleSection8) {
             listItem.appendChild(cloneItem);
 
             initTinyMCE(`#${id}`);
-        })
+        });
     }
 
     listItem.addEventListener("click", (event) => {
         // Đóng/mở item
-        if (event.target.closest('.inner-more')) {
-            const parentItem = event.target.closest('.inner-schedule-item');
+        if (event.target.closest(".inner-more")) {
+            const parentItem = event.target.closest(".inner-schedule-item");
             if (parentItem) {
-                parentItem.classList.toggle('hidden');
+                parentItem.classList.toggle("hidden");
             }
         }
 
         // Xóa item
-        if (event.target.closest('.inner-remove')) {
-            const parentItem = event.target.closest('.inner-schedule-item');
-            const totalItem = listItem.querySelectorAll(".inner-schedule-item").length;
+        if (event.target.closest(".inner-remove")) {
+            const parentItem = event.target.closest(".inner-schedule-item");
+            const totalItem = listItem.querySelectorAll(
+                ".inner-schedule-item",
+            ).length;
             if (parentItem && totalItem > 1) {
                 parentItem.remove();
             }
         }
-    })
+    });
 
     // Sắp xếp
     new Sortable(listItem, {
@@ -71,7 +75,7 @@ if (scheduleSection8) {
             const textarea = event.item.querySelector("[textarea-mce]");
             const id = textarea.id;
             initTinyMCE(`#${id}`);
-        }
+        },
     });
 }
 // End Schedule Section 8
@@ -80,60 +84,77 @@ if (scheduleSection8) {
 const listFilepondImage = document.querySelectorAll("[filepond-image]");
 let filePond = {};
 if (listFilepondImage.length > 0) {
-    listFilepondImage.forEach(filepondImage => {
+    listFilepondImage.forEach((filepondImage) => {
         FilePond.registerPlugin(FilePondPluginImagePreview);
         FilePond.registerPlugin(FilePondPluginFileValidateType);
+
+        let files = null;
+        const elementImageDefault = filepondImage.closest("[image-default]");
+        if (elementImageDefault) {
+            const imageDefault =
+                elementImageDefault.getAttribute("image-default");
+            if (imageDefault) {
+                files = [
+                    {
+                        source: imageDefault, // Đường dẫn ảnh
+                    },
+                ];
+            }
+        }
+
         filePond[filepondImage.name] = FilePond.create(filepondImage, {
-            labelIdle: '+'
+            labelIdle: "+",
+            files: files,
         });
     });
 }
+
 // End Filepond Image
 
 // Biểu đồ doanh thu
 const revenueChart = document.querySelector("#revenue-chart");
 if (revenueChart) {
     new Chart(revenueChart, {
-        type: 'line',
+        type: "line",
         data: {
-            labels: ['01', '02', '03', '04', '05'],
+            labels: ["01", "02", "03", "04", "05"],
             datasets: [
                 {
-                    label: 'Tháng 04/2025', // Nhãn của dataset
+                    label: "Tháng 04/2025", // Nhãn của dataset
                     data: [1200000, 1800000, 3200000, 900000, 1600000], // Dữ liệu
-                    borderColor: '#4379EE', // Màu viền
+                    borderColor: "#4379EE", // Màu viền
                     borderWidth: 1.5, // Độ dày của đường
                 },
                 {
-                    label: 'Tháng 03/2025', // Nhãn của dataset
+                    label: "Tháng 03/2025", // Nhãn của dataset
                     data: [1000000, 900000, 1200000, 1200000, 1400000], // Dữ liệu
-                    borderColor: '#EF3826', // Màu viền
+                    borderColor: "#EF3826", // Màu viền
                     borderWidth: 1.5, // Độ dày của đường
-                }
-            ]
+                },
+            ],
         },
         options: {
             plugins: {
                 legend: {
-                    position: 'bottom'
-                }
+                    position: "bottom",
+                },
             },
             scales: {
                 x: {
                     title: {
                         display: true,
-                        text: 'Ngày'
-                    }
+                        text: "Ngày",
+                    },
                 },
                 y: {
                     title: {
                         display: true,
-                        text: 'Doanh thu (VND)'
-                    }
-                }
+                        text: "Doanh thu (VND)",
+                    },
+                },
             },
             maintainAspectRatio: false, // Không giữ tỷ lệ khung hình mặc định
-        }
+        },
     });
 }
 // Hết Biểu đồ doanh thu
@@ -141,14 +162,14 @@ if (revenueChart) {
 // Category Create Form
 const categoryCreateForm = document.querySelector("#category-create-form");
 if (categoryCreateForm) {
-    const validation = new JustValidate('#category-create-form');
+    const validation = new JustValidate("#category-create-form");
 
     validation
-        .addField('#name', [
+        .addField("#name", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập tên danh mục!'
-            }
+                rule: "required",
+                errorMessage: "Vui lòng nhập tên danh mục!",
+            },
         ])
         .onSuccess((event) => {
             const name = event.target.name.value;
@@ -172,10 +193,10 @@ if (categoryCreateForm) {
 
             fetch(`/${pathAdmin}/category/create`, {
                 method: "POST",
-                body: formData
+                body: formData,
             })
-                .then(res => res.json())
-                .then(data => {
+                .then((res) => res.json())
+                .then((data) => {
                     if (data.code === "error") {
                         alert(data.message);
                     }
@@ -184,23 +205,80 @@ if (categoryCreateForm) {
                         window.location.href = `/${pathAdmin}/category/list`;
                     }
                 });
-
-        })
-    ;
+        });
 }
 // End Category Create Form
+
+// Category Edit Form
+const categoryEditForm = document.querySelector("#category-edit-form");
+if (categoryEditForm) {
+    const validation = new JustValidate("#category-edit-form");
+
+    validation
+        .addField("#name", [
+            {
+                rule: "required",
+                errorMessage: "Vui lòng nhập tên danh mục!",
+            },
+        ])
+        .onSuccess((event) => {
+            const id = event.target.id.value;
+            const name = event.target.name.value;
+            const parent = event.target.parent.value;
+            const position = event.target.position.value;
+            const status = event.target.status.value;
+            const avatars = filePond.avatar.getFiles();
+            let avatar = null;
+            if (avatars.length > 0) {
+                avatar = avatars[0].file;
+                const elementImageDefault =
+                    event.target.avatar.closest("[image-default]");
+                const imageDefault =
+                    elementImageDefault.getAttribute("image-default");
+                if (imageDefault.includes(avatar.name)) {
+                    avatar = null;
+                }
+            }
+            const description = tinymce.get("description").getContent();
+
+            // Tạo FormData
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("parent", parent);
+            formData.append("position", position);
+            formData.append("status", status);
+            formData.append("avatar", avatar);
+            formData.append("description", description);
+
+            fetch(`/${pathAdmin}/category/edit/${id}`, {
+                method: "PATCH",
+                body: formData,
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.code == "error") {
+                        alert(data.message);
+                    }
+
+                    if (data.code == "success") {
+                        window.location.reload();
+                    }
+                });
+        });
+}
+// End Category Edit Form
 
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");
 if (tourCreateForm) {
-    const validation = new JustValidate('#tour-create-form');
+    const validation = new JustValidate("#tour-create-form");
 
     validation
-        .addField('#name', [
+        .addField("#name", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập tên tour!'
-            }
+                rule: "required",
+                errorMessage: "Vui lòng nhập tên tour!",
+            },
         ])
         .onSuccess((event) => {
             const name = event.target.name.value;
@@ -229,15 +307,19 @@ if (tourCreateForm) {
             const schedules = [];
 
             // locations
-            const listElementLocation = tourCreateForm.querySelectorAll('input[name="locations"]:checked');
-            listElementLocation.forEach(input => {
+            const listElementLocation = tourCreateForm.querySelectorAll(
+                'input[name="locations"]:checked',
+            );
+            listElementLocation.forEach((input) => {
                 locations.push(input.value);
             });
             // End locations
 
             // schedules
-            const listElementScheduleItem = tourCreateForm.querySelectorAll('.inner-schedule-item');
-            listElementScheduleItem.forEach(scheduleItem => {
+            const listElementScheduleItem = tourCreateForm.querySelectorAll(
+                ".inner-schedule-item",
+            );
+            listElementScheduleItem.forEach((scheduleItem) => {
                 const input = scheduleItem.querySelector("input");
                 const title = input.value;
 
@@ -247,7 +329,7 @@ if (tourCreateForm) {
 
                 schedules.push({
                     title: title,
-                    description: description
+                    description: description,
                 });
             });
             // End schedules
@@ -272,42 +354,41 @@ if (tourCreateForm) {
             console.log(departureDate);
             console.log(information);
             console.log(schedules);
-        })
-    ;
+        });
 }
 // End Tour Create Form
 
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {
-    const validation = new JustValidate('#order-edit-form');
+    const validation = new JustValidate("#order-edit-form");
 
     validation
-        .addField('#fullName', [
+        .addField("#fullName", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập họ tên!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập họ tên!",
             },
             {
-                rule: 'minLength',
+                rule: "minLength",
                 value: 5,
-                errorMessage: 'Họ tên phải có ít nhất 5 ký tự!',
+                errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
             },
             {
-                rule: 'maxLength',
+                rule: "maxLength",
                 value: 50,
-                errorMessage: 'Họ tên không được vượt quá 50 ký tự!',
+                errorMessage: "Họ tên không được vượt quá 50 ký tự!",
             },
         ])
-        .addField('#phone', [
+        .addField("#phone", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập số điện thoại!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập số điện thoại!",
             },
             {
-                rule: 'customRegexp',
+                rule: "customRegexp",
                 value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-                errorMessage: 'Số điện thoại không đúng định dạng!'
+                errorMessage: "Số điện thoại không đúng định dạng!",
             },
         ])
         .onSuccess((event) => {
@@ -324,27 +405,28 @@ if (orderEditForm) {
             console.log(paymentMethod);
             console.log(paymentStatus);
             console.log(status);
-        })
-    ;
+        });
 }
 // End Order Edit Form
 
 // Setting Website Info Form
-const settingWebsiteInfoForm = document.querySelector("#setting-website-info-form");
+const settingWebsiteInfoForm = document.querySelector(
+    "#setting-website-info-form",
+);
 if (settingWebsiteInfoForm) {
-    const validation = new JustValidate('#setting-website-info-form');
+    const validation = new JustValidate("#setting-website-info-form");
 
     validation
-        .addField('#websiteName', [
+        .addField("#websiteName", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập tên website!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập tên website!",
             },
         ])
-        .addField('#email', [
+        .addField("#email", [
             {
-                rule: 'email',
-                errorMessage: 'Email không đúng định dạng!',
+                rule: "email",
+                errorMessage: "Email không đúng định dạng!",
             },
         ])
         .onSuccess((event) => {
@@ -369,84 +451,85 @@ if (settingWebsiteInfoForm) {
             console.log(address);
             console.log(logo);
             console.log(favicon);
-        })
-    ;
+        });
 }
 // End Setting Website Info Form
 
 // Setting Account Admin Create Form
-const settingAccountAdminCreateForm = document.querySelector("#setting-account-admin-create-form");
+const settingAccountAdminCreateForm = document.querySelector(
+    "#setting-account-admin-create-form",
+);
 if (settingAccountAdminCreateForm) {
-    const validation = new JustValidate('#setting-account-admin-create-form');
+    const validation = new JustValidate("#setting-account-admin-create-form");
 
     validation
-        .addField('#fullName', [
+        .addField("#fullName", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập họ tên!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập họ tên!",
             },
             {
-                rule: 'minLength',
+                rule: "minLength",
                 value: 5,
-                errorMessage: 'Họ tên phải có ít nhất 5 ký tự!',
+                errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
             },
             {
-                rule: 'maxLength',
+                rule: "maxLength",
                 value: 50,
-                errorMessage: 'Họ tên không được vượt quá 50 ký tự!',
+                errorMessage: "Họ tên không được vượt quá 50 ký tự!",
             },
         ])
-        .addField('#email', [
+        .addField("#email", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập email!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập email!",
             },
             {
-                rule: 'email',
-                errorMessage: 'Email không đúng định dạng!',
+                rule: "email",
+                errorMessage: "Email không đúng định dạng!",
             },
         ])
-        .addField('#phone', [
+        .addField("#phone", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập số điện thoại!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập số điện thoại!",
             },
             {
-                rule: 'customRegexp',
+                rule: "customRegexp",
                 value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-                errorMessage: 'Số điện thoại không đúng định dạng!'
+                errorMessage: "Số điện thoại không đúng định dạng!",
             },
         ])
-        .addField('#positionCompany', [
+        .addField("#positionCompany", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập chức vụ!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập chức vụ!",
             },
         ])
-        .addField('#password', [
+        .addField("#password", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập mật khẩu!',
+                rule: "required",
+                errorMessage: "Vui lòng nhập mật khẩu!",
             },
             {
                 validator: (value) => value.length >= 8,
-                errorMessage: 'Mật khẩu phải chứa ít nhất 8 ký tự!',
+                errorMessage: "Mật khẩu phải chứa ít nhất 8 ký tự!",
             },
             {
                 validator: (value) => /[A-Z]/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một chữ cái in hoa!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái in hoa!",
             },
             {
                 validator: (value) => /[a-z]/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một chữ cái thường!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái thường!",
             },
             {
                 validator: (value) => /\d/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một chữ số!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một chữ số!",
             },
             {
                 validator: (value) => /[@$!%*?&]/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!",
             },
         ])
         .onSuccess((event) => {
@@ -471,21 +554,22 @@ if (settingAccountAdminCreateForm) {
             console.log(status);
             console.log(password);
             console.log(avatar);
-        })
-    ;
+        });
 }
 // End Setting Account Admin Create Form
 
 // Setting Role Create Form
-const settingRoleCreateForm = document.querySelector("#setting-role-create-form");
+const settingRoleCreateForm = document.querySelector(
+    "#setting-role-create-form",
+);
 if (settingRoleCreateForm) {
-    const validation = new JustValidate('#setting-role-create-form');
+    const validation = new JustValidate("#setting-role-create-form");
 
     validation
-        .addField('#name', [
+        .addField("#name", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập tên nhóm quyền!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập tên nhóm quyền!",
             },
         ])
         .onSuccess((event) => {
@@ -494,8 +578,11 @@ if (settingRoleCreateForm) {
             const permissions = [];
 
             // permissions
-            const listElementPermission = settingRoleCreateForm.querySelectorAll('input[name="permissions"]:checked');
-            listElementPermission.forEach(input => {
+            const listElementPermission =
+                settingRoleCreateForm.querySelectorAll(
+                    'input[name="permissions"]:checked',
+                );
+            listElementPermission.forEach((input) => {
                 permissions.push(input.value);
             });
             // End permissions
@@ -503,52 +590,51 @@ if (settingRoleCreateForm) {
             console.log(name);
             console.log(description);
             console.log(permissions);
-        })
-    ;
+        });
 }
 // End Setting Role Create Form
 
 // Profile Edit Form
 const profileEditForm = document.querySelector("#profile-edit-form");
 if (profileEditForm) {
-    const validation = new JustValidate('#profile-edit-form');
+    const validation = new JustValidate("#profile-edit-form");
 
     validation
-        .addField('#fullName', [
+        .addField("#fullName", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập họ tên!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập họ tên!",
             },
             {
-                rule: 'minLength',
+                rule: "minLength",
                 value: 5,
-                errorMessage: 'Họ tên phải có ít nhất 5 ký tự!',
+                errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
             },
             {
-                rule: 'maxLength',
+                rule: "maxLength",
                 value: 50,
-                errorMessage: 'Họ tên không được vượt quá 50 ký tự!',
+                errorMessage: "Họ tên không được vượt quá 50 ký tự!",
             },
         ])
-        .addField('#email', [
+        .addField("#email", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập email!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập email!",
             },
             {
-                rule: 'email',
-                errorMessage: 'Email không đúng định dạng!',
+                rule: "email",
+                errorMessage: "Email không đúng định dạng!",
             },
         ])
-        .addField('#phone', [
+        .addField("#phone", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập số điện thoại!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập số điện thoại!",
             },
             {
-                rule: 'customRegexp',
+                rule: "customRegexp",
                 value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-                errorMessage: 'Số điện thoại không đúng định dạng!'
+                errorMessage: "Số điện thoại không đúng định dạng!",
             },
         ])
         .onSuccess((event) => {
@@ -565,61 +651,61 @@ if (profileEditForm) {
             console.log(email);
             console.log(phone);
             console.log(avatar);
-        })
-    ;
+        });
 }
 // End Profile Edit Form
 
 // Profile Change Password Form
-const profileChangePasswordForm = document.querySelector("#profile-change-password-form");
+const profileChangePasswordForm = document.querySelector(
+    "#profile-change-password-form",
+);
 if (profileChangePasswordForm) {
-    const validation = new JustValidate('#profile-change-password-form');
+    const validation = new JustValidate("#profile-change-password-form");
 
     validation
-        .addField('#password', [
+        .addField("#password", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập mật khẩu!',
+                rule: "required",
+                errorMessage: "Vui lòng nhập mật khẩu!",
             },
             {
                 validator: (value) => value.length >= 8,
-                errorMessage: 'Mật khẩu phải chứa ít nhất 8 ký tự!',
+                errorMessage: "Mật khẩu phải chứa ít nhất 8 ký tự!",
             },
             {
                 validator: (value) => /[A-Z]/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một chữ cái in hoa!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái in hoa!",
             },
             {
                 validator: (value) => /[a-z]/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một chữ cái thường!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một chữ cái thường!",
             },
             {
                 validator: (value) => /\d/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một chữ số!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một chữ số!",
             },
             {
                 validator: (value) => /[@$!%*?&]/.test(value),
-                errorMessage: 'Mật khẩu phải chứa ít nhất một ký tự đặc biệt!',
+                errorMessage: "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!",
             },
         ])
-        .addField('#confirmPassword', [
+        .addField("#confirmPassword", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng xác nhận mật khẩu!',
+                rule: "required",
+                errorMessage: "Vui lòng xác nhận mật khẩu!",
             },
             {
                 validator: (value, fields) => {
-                    const password = fields['#password'].elem.value;
+                    const password = fields["#password"].elem.value;
                     return value == password;
                 },
-                errorMessage: 'Mật khẩu xác nhận không khớp!',
-            }
+                errorMessage: "Mật khẩu xác nhận không khớp!",
+            },
         ])
         .onSuccess((event) => {
             const password = event.target.password.value;
             console.log(password);
-        })
-    ;
+        });
 }
 // End Profile Change Password Form
 
@@ -629,14 +715,17 @@ if (sider) {
     const pathNameCurrent = window.location.pathname;
     const splitPathNameCurrent = pathNameCurrent.split("/");
     const menuList = sider.querySelectorAll("a");
-    menuList.forEach(item => {
+    menuList.forEach((item) => {
         const href = item.href;
         const pathName = new URL(href).pathname;
         const splitPathName = pathName.split("/");
-        if (splitPathNameCurrent[1] === splitPathName[1] && splitPathNameCurrent[2] === splitPathName[2]) {
+        if (
+            splitPathNameCurrent[1] === splitPathName[1] &&
+            splitPathNameCurrent[2] === splitPathName[2]
+        ) {
             item.classList.add("active");
         }
-    })
+    });
 }
 // End Sider
 
@@ -647,18 +736,18 @@ if (button) {
         fetch(`/${pathAdmin}/account/logout`, {
             method: "POST",
         })
-            .then(res => res.json())
-            .then(data => {
+            .then((res) => res.json())
+            .then((data) => {
                 if (data.code === "success") {
                     window.location.href = `/${pathAdmin}/account/login`;
                 }
-            })
+            });
     });
 }
 // End Logout
 // Alert
 const alertTime = document.querySelector("[alert-time]");
-if(alertTime) {
+if (alertTime) {
     let time = alertTime.getAttribute("alert-time");
     time = time ? parseInt(time) : 4000;
     setTimeout(() => {
