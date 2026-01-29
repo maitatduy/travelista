@@ -4,9 +4,15 @@ const categoryHelper = require("../../helpers/category.helper");
 const moment = require("moment");
 
 module.exports.list = async function (req, res) {
-    const categoryList = await Category.find({
+    const find = {
         deleted: false,
-    }).sort({
+    };
+
+    if (req.query.status) {
+        find.status = req.query.status;
+    }
+
+    const categoryList = await Category.find(find).sort({
         position: "desc",
     });
 
