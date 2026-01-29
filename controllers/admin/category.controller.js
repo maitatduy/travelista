@@ -11,6 +11,9 @@ module.exports.list = async function (req, res) {
     if (req.query.status) {
         find.status = req.query.status;
     }
+    if (req.query.createdBy) {
+        find.createdBy = req.query.createdBy;
+    }
 
     const categoryList = await Category.find(find).sort({
         position: "desc",
@@ -38,9 +41,13 @@ module.exports.list = async function (req, res) {
         );
     }
 
+    // Danh sách tài khoản quản trị
+    const accountAdminList = await AccountAdmin.find({}).select("id fullName");
+
     res.render("admin/pages/category-list", {
         pageTitle: "Trang quản lý danh mục",
         categoryList: categoryList,
+        accountAdminList: accountAdminList,
     });
 };
 
