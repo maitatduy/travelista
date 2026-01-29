@@ -755,3 +755,26 @@ if (alertTime) {
     }, time);
 }
 // End Alert
+// Delete Category
+const listButtonDelete = document.querySelectorAll("[button-delete]");
+if (listButtonDelete.length > 0) {
+    listButtonDelete.forEach((button) => {
+        button.addEventListener("click", () => {
+            const dataAPI = button.getAttribute("data-api");
+            fetch(dataAPI, {
+                method: "PATCH",
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.code === "error") {
+                        alert(data.message);
+                    }
+
+                    if (data.code === "success") {
+                        window.location.reload();
+                    }
+                });
+        });
+    });
+}
+// End Delete Category
