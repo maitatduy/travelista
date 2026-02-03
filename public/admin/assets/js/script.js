@@ -818,3 +818,43 @@ if (filterCreatedBy) {
     }
 }
 // End Filter Created By
+// Filter Start Date
+const filterStartDate = document.querySelector("[filter-start-date]");
+if (filterStartDate) {
+    const url = new URL(window.location.href);
+    filterStartDate.addEventListener("change", () => {
+        const value = filterStartDate.value;
+        if (value) {
+            url.searchParams.set("startDate", value);
+        } else {
+            url.searchParams.delete("startDate");
+        }
+        window.location.href = url.href;
+    });
+    // Hiển thị lựa chọn mặc định
+    const startDateCurrent = url.searchParams.get("startDate");
+    if (startDateCurrent) {
+        filterStartDate.value = startDateCurrent;
+    }
+}
+// End Filter Start Date
+// Filter Start Date
+const filterEndDate = document.querySelector("[filter-end-date]");
+if (filterEndDate) {
+    const url = new URL(window.location.href);
+    filterEndDate.addEventListener("change", () => {
+        const value = filterEndDate.value;
+        if (value) {
+            url.searchParams.set("endDate", value);
+        } else {
+            url.searchParams.delete("endDate");
+        }
+        window.location.href = url.href;
+    });
+    // Hiển thị lựa chọn mặc định
+    const endDateCurrent = url.searchParams.get("endDate");
+    if (endDateCurrent) {
+        filterEndDate.value = endDateCurrent;
+    }
+}
+// End Filter Start Date
