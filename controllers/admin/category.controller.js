@@ -195,3 +195,40 @@ module.exports.deletePatch = async (req, res) => {
         });
     }
 };
+
+module.exports.changeMultiPatch = async (req, res) => {
+    try {
+        const { option, ids } = req.body;
+        if (option === "active" || option === "inactive") {
+            await Category.updateMany(
+                {
+                    _id: { $in: ids },
+                },
+                {
+                    status: option,
+                },
+            );
+        } else if (option === "delete") {
+            await Category.updateMany(
+                {
+                    _id: { $in: ids },
+                },
+                {
+                    deleted: true,
+                    deletedBy: req.account.id,
+                    deletedAt: Date.now(),
+                },
+            );
+            req.flash("success", "Xóa thành công!");
+        }
+        req.flash("success", "Đổi trạng thái thành công!");
+        res.json({
+            code: "success",
+        });
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không hợp lệ!",
+        });
+    }
+};
