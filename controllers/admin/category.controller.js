@@ -2,6 +2,7 @@ const Category = require("../../models/category.model");
 const AccountAdmin = require("../../models/account-admin.model");
 const categoryHelper = require("../../helpers/category.helper");
 const moment = require("moment");
+const slugify = require("slugify");
 
 module.exports.list = async function (req, res) {
     const find = {
@@ -29,6 +30,14 @@ module.exports.list = async function (req, res) {
 
     if (Object.keys(dateFilter).length > 0) {
         find.createdAt = dateFilter;
+    }
+
+    if (req.query.keyword) {
+        const keyword = slugify(req.query.keyword, {
+            lower: true,
+        });
+        const keywordRegex = new RegExp(keyword);
+        find.slug = keywordRegex;
     }
 
     const categoryList = await Category.find(find).sort({
