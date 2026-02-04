@@ -9,6 +9,7 @@ module.exports.list = async function (req, res) {
         deleted: false,
     };
 
+    // Filter
     if (req.query.status) {
         find.status = req.query.status;
     }
@@ -31,7 +32,9 @@ module.exports.list = async function (req, res) {
     if (Object.keys(dateFilter).length > 0) {
         find.createdAt = dateFilter;
     }
+    // End Filter
 
+    // Search
     if (req.query.keyword) {
         const keyword = slugify(req.query.keyword, {
             lower: true,
@@ -39,10 +42,36 @@ module.exports.list = async function (req, res) {
         const keywordRegex = new RegExp(keyword);
         find.slug = keywordRegex;
     }
+    // End Search
 
-    const categoryList = await Category.find(find).sort({
-        position: "desc",
-    });
+    // Pagination
+    const limitItems = 5;
+    let page = 1;
+    if (req.query.page) {
+        const currentPage = parseInt(req.query.page);
+        if (currentPage > 0) {
+            page = currentPage;
+        }
+    }
+    const totalRecord = await Category.countDocuments(find);
+    const totalPage = Math.ceil(totalRecord / limitItems);
+    if (page > totalPage) {
+        page = totalPage;
+    }
+    const skip = (page - 1) * limitItems;
+    const pagination = {
+        skip: skip,
+        totalRecord: totalRecord,
+        totalPage: totalPage,
+    };
+    // End Pagination
+
+    const categoryList = await Category.find(find)
+        .sort({
+            position: "desc",
+        })
+        .limit(limitItems)
+        .skip(skip);
 
     for (const item of categoryList) {
         if (item.createdBy) {
@@ -73,6 +102,7 @@ module.exports.list = async function (req, res) {
         pageTitle: "Trang quản lý danh mục",
         categoryList: categoryList,
         accountAdminList: accountAdminList,
+        pagination: pagination,
     });
 };
 
