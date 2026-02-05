@@ -55,8 +55,12 @@ module.exports.list = async function (req, res) {
     }
     const totalRecord = await Category.countDocuments(find);
     const totalPage = Math.ceil(totalRecord / limitItems);
-    if (page > totalPage) {
+    if (page > totalPage && totalPage > 0) {
         page = totalPage;
+    }
+
+    if (page < 1) {
+        page = 1;
     }
     const skip = (page - 1) * limitItems;
     const pagination = {
