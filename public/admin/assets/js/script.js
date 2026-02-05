@@ -379,6 +379,116 @@ if (tourCreateForm) {
 }
 // End Tour Create Form
 
+// Tour Edit Form
+const tourEditForm = document.querySelector("#tour-edit-form");
+if (tourEditForm) {
+    const validation = new JustValidate("#tour-edit-form");
+
+    validation
+        .addField("#name", [
+            {
+                rule: "required",
+                errorMessage: "Vui lòng nhập tên tour!",
+            },
+        ])
+        .onSuccess((event) => {
+            const id = event.target.id.value;
+            const name = event.target.name.value;
+            const category = event.target.category.value;
+            const position = event.target.position.value;
+            const status = event.target.status.value;
+            const avatars = filePond.avatar.getFiles();
+            let avatar = null;
+            if (avatars.length > 0) {
+                avatar = avatars[0].file;
+                const elementImageDefault =
+                    event.target.avatar.closest("[image-default]");
+                const imageDefault =
+                    elementImageDefault.getAttribute("image-default");
+                if (imageDefault.includes(avatar.name)) {
+                    avatar = null;
+                }
+            }
+            const priceAdult = event.target.priceAdult.value;
+            const priceChildren = event.target.priceChildren.value;
+            const priceBaby = event.target.priceBaby.value;
+            const priceNewAdult = event.target.priceNewAdult.value;
+            const priceNewChildren = event.target.priceNewChildren.value;
+            const priceNewBaby = event.target.priceNewBaby.value;
+            const stockAdult = event.target.stockAdult.value;
+            const stockChildren = event.target.stockChildren.value;
+            const stockBaby = event.target.stockBaby.value;
+            const locations = [];
+            const time = event.target.time.value;
+            const vehicle = event.target.vehicle.value;
+            const departureDate = event.target.departureDate.value;
+            const information = tinymce.get("information").getContent();
+            const schedules = [];
+
+            const listElementLocation = tourEditForm.querySelectorAll(
+                'input[name="locations"]:checked',
+            );
+            listElementLocation.forEach((input) => {
+                locations.push(input.value);
+            });
+
+            const listElementScheduleItem = tourEditForm.querySelectorAll(
+                ".inner-schedule-item",
+            );
+            listElementScheduleItem.forEach((scheduleItem) => {
+                const input = scheduleItem.querySelector("input");
+                const title = input.value;
+
+                const textarea = scheduleItem.querySelector("textarea");
+                const idTextarea = textarea.id;
+                const description = tinymce.get(idTextarea).getContent();
+
+                schedules.push({
+                    title: title,
+                    description: description,
+                });
+            });
+
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("category", category);
+            formData.append("position", position);
+            formData.append("status", status);
+            formData.append("avatar", avatar);
+            formData.append("priceAdult", priceAdult);
+            formData.append("priceChildren", priceChildren);
+            formData.append("priceBaby", priceBaby);
+            formData.append("priceNewAdult", priceNewAdult);
+            formData.append("priceNewChildren", priceNewChildren);
+            formData.append("priceNewBaby", priceNewBaby);
+            formData.append("stockAdult", stockAdult);
+            formData.append("stockChildren", stockChildren);
+            formData.append("stockBaby", stockBaby);
+            formData.append("locations", JSON.stringify(locations));
+            formData.append("time", time);
+            formData.append("vehicle", vehicle);
+            formData.append("departureDate", departureDate);
+            formData.append("information", information);
+            formData.append("schedules", JSON.stringify(schedules));
+
+            fetch(`/${pathAdmin}/tour/edit/${id}`, {
+                method: "PATCH",
+                body: formData,
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.code == "error") {
+                        alert(data.message);
+                    }
+
+                    if (data.code == "success") {
+                        window.location.reload();
+                    }
+                });
+        });
+}
+// End Tour Edit Form
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {
@@ -879,6 +989,46 @@ if (filterEndDate) {
     }
 }
 // End Filter Start Date
+// Filter Category
+const filterCategory = document.querySelector("[filter-category]");
+if (filterCategory) {
+    const url = new URL(window.location.href);
+    filterCategory.addEventListener("change", () => {
+        const value = filterCategory.value;
+        if (value) {
+            url.searchParams.set("category", value);
+        } else {
+            url.searchParams.delete("category");
+        }
+        window.location.href = url.href;
+    });
+    // Hiển thị lựa chọn mặc định
+    const categoryCurrent = url.searchParams.get("category");
+    if (categoryCurrent) {
+        filterCategory.value = categoryCurrent;
+    }
+}
+// End Filter Category
+// Filter Price
+const filterPrice = document.querySelector("[filter-price]");
+if (filterPrice) {
+    const url = new URL(window.location.href);
+    filterPrice.addEventListener("change", () => {
+        const value = filterPrice.value;
+        if (value) {
+            url.searchParams.set("priceRange", value);
+        } else {
+            url.searchParams.delete("priceRange");
+        }
+        window.location.href = url.href;
+    });
+    // Hiển thị lựa chọn mặc định
+    const priceCurrent = url.searchParams.get("priceRange");
+    if (priceCurrent) {
+        filterPrice.value = priceCurrent;
+    }
+}
+// End Filter Price
 // Filter Reset
 const filterReset = document.querySelector("[filter-reset]");
 if (filterReset) {

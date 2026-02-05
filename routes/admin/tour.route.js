@@ -16,11 +16,29 @@ router.get("/list", tourController.list);
 router.get("/create", tourController.create);
 router.post(
     "/create",
-    tourValidate.createPost,
     upload.single("avatar"),
+    tourValidate.createPost,
     tourController.createPost,
 );
 
 router.get("/trash", tourController.trash);
+
+router.get("/edit/:id", tourController.edit);
+router.patch(
+    "/edit/:id",
+    upload.single("avatar"),
+    tourValidate.createPost,
+    tourController.editPatch,
+);
+
+router.patch("/delete/:id", tourController.deletePatch);
+
+router.patch("/undo/:id", tourController.undoPatch);
+
+router.patch("/delete-destroy/:id", tourController.deleteDestroyPatch);
+
+router.patch("/trash/change-multi", tourController.trashChangeMultiPatch);
+
+router.patch("/change-multi", tourController.changeMultiPatch);
 
 module.exports = router;
