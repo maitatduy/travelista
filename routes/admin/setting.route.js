@@ -25,6 +25,8 @@ router.patch(
 router.get("/account-admin/list", settingController.accountAdminList);
 router.get("/account-admin/create", settingController.accountAdminCreate);
 router.get("/role/list", settingController.settingRoleList);
+
 router.get("/role/create", settingController.settingRoleCreate);
+router.post("/role/create", settingController.roleCreatePost);
 
 module.exports = router;

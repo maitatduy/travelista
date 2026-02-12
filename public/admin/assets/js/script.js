@@ -747,9 +747,29 @@ if (settingRoleCreateForm) {
             });
             // End permissions
 
-            console.log(name);
-            console.log(description);
-            console.log(permissions);
+            const data = {
+                name: name,
+                description: description,
+                permissions: permissions,
+            };
+
+            fetch(`/${pathAdmin}/setting/role/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.code == "error") {
+                        alert(data.message);
+                    }
+
+                    if (data.code == "success") {
+                        window.location.href = `/${pathAdmin}/setting/role/list`;
+                    }
+                });
         });
 }
 // End Setting Role Create Form
