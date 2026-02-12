@@ -60,8 +60,14 @@ module.exports.accountAdminCreate = async (req, res) => {
 };
 
 module.exports.settingRoleList = async (req, res) => {
+    const roleList = await Role.find({
+        deleted: false,
+    });
+
+    console.log(roleList);
     res.render("admin/pages/setting-role-list", {
         pageTitle: "Trang nhóm quyền",
+        roleList: roleList,
     });
 };
 
