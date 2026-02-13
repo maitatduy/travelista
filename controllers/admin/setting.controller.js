@@ -1,6 +1,7 @@
 const SettingWebsiteInfo = require("../../models/setting-website-info");
 const Role = require("../../models/role.model");
 const permissionConfig = require("../../config/permission.config");
+const slugify = require("slugify");
 
 module.exports.list = async (req, res) => {
     res.render("admin/pages/setting-list", {
@@ -60,11 +61,18 @@ module.exports.accountAdminCreate = async (req, res) => {
 };
 
 module.exports.settingRoleList = async (req, res) => {
-    const roleList = await Role.find({
+    const find = {
         deleted: false,
-    });
+    };
 
-    console.log(roleList);
+    // Search
+    if (req.query.keyword) {
+        const keywordRegex = new RegExp(req.query.keyword, "i");
+        find.name = keywordRegex;
+    }
+    // End Search
+    const roleList = await Role.find(find);
+
     res.render("admin/pages/setting-role-list", {
         pageTitle: "Trang nhóm quyền",
         roleList: roleList,
@@ -138,6 +146,33 @@ module.exports.roleEditPatch = async (req, res) => {
         res.json({
             code: "error",
             message: "Id không tồn tại!",
+        });
+    }
+};
+
+module.exports.changeMultiPatch = async (req, res) => {
+    try {
+        const { option, ids } = req.body;
+        if (option === "delete") {
+            await Role.updateMany(
+                {
+                    _id: { $in: ids },
+                },
+                {
+                    deleted: true,
+                    deletedBy: req.account.id,
+                    deletedAt: Date.now(),
+                },
+            );
+            req.flash("success", "Xóa thành công!");
+            res.json({
+                code: "success",
+            });
+        }
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không hợp lệ!",
         });
     }
 };

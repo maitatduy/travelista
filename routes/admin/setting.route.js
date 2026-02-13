@@ -32,4 +32,6 @@ router.post("/role/create", settingController.roleCreatePost);
 router.get("/role/edit/:id", settingController.roleEdit);
 router.patch("/role/edit/:id", settingController.roleEditPatch);
 
+router.patch("/role/change-multi", settingController.changeMultiPatch);
+
 module.exports = router;
