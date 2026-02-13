@@ -1,11 +1,79 @@
+const bcrypt = require("bcryptjs");
+
+const AccountAdmin = require("../../models/account-admin.model");
+
 module.exports.edit = async (req, res) => {
     res.render("admin/pages/profile-edit", {
-        pageTitle: "Trang thông tin cá nhân"
+        pageTitle: "Trang thông tin cá nhân",
     });
-}
+};
+
+module.exports.editPatch = async (req, res) => {
+    try {
+        const id = req.account.id;
+
+        req.body.updatedBy = req.account.id;
+        if (req.file) {
+            req.body.avatar = req.file.path;
+        } else {
+            delete req.body.avatar;
+        }
+
+        await AccountAdmin.updateOne(
+            {
+                _id: id,
+                deleted: false,
+            },
+            req.body,
+        );
+
+        req.flash("success", "Cập nhật thông tin thành công!");
+
+        res.json({
+            code: "success",
+        });
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: error,
+        });
+    }
+};
 
 module.exports.changePassword = async (req, res) => {
     res.render("admin/pages/profile-change-password", {
-        pageTitle: "Trang đổi mật khẩu"
+        pageTitle: "Trang đổi mật khẩu",
     });
-}
+};
+
+module.exports.changePasswordPatch = async (req, res) => {
+    try {
+        const id = req.account.id;
+
+        req.body.updatedBy = id;
+
+        // Mã hóa mật khẩu với bcrypt
+        const salt = await bcrypt.genSalt(10);
+        req.body.password = await bcrypt.hash(req.body.password, salt);
+
+        await AccountAdmin.updateOne(
+            {
+                _id: id,
+                deleted: false,
+            },
+            req.body,
+        );
+
+        req.flash("success", "Đổi mật khẩu thành công!");
+
+        res.json({
+            code: "success",
+        });
+    } catch (error) {
+        console.log(error);
+        res.json({
+            code: "error",
+            message: "Lỗi hệ thống, chưa thể đổi mật khẩu!",
+        });
+    }
+};
