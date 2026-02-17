@@ -100,66 +100,6 @@ block main
                         i.fa-solid.fa-magnifying-glass
                         | Tìm Kiếm
     // End Section 1
-    // Section 2
-    -
-        var productListSection2 = [
-            {
-                avatar: "/client/assets/images/product-1.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Hà Nội - Lào Cai - SaPa 4N3Đ",
-                priceOld: 13650000,
-                priceNew: 12590000,
-                code: "TOUR000001",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 4,
-                ratingTotal: 20,
-                stock: 10
-            },
-            {
-                avatar: "/client/assets/images/product-2.jpg",
-                slug: "#",
-                discount: 0,
-                name: "Tour 2026 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)",
-                priceOld: 12000000,
-                priceNew: 12000000,
-                code: "TOUR000002",
-                departureDate: "24/12/2026",
-                time: "3 Ngày 2 Đêm",
-                ratingStars: 5,
-                ratingTotal: 30,
-                stock: 15
-            },
-            {
-                avatar: "/client/assets/images/product-3.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Combo Đà Nẵng 2026: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL",
-                priceOld: 13650000,
-                priceNew: 12590000,
-                code: "TOUR000003",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 0,
-                ratingTotal: 0,
-                stock: 20
-            },
-            {
-                avatar: "/client/assets/images/product-3.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Combo Đà Nẵng 2026: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL 2",
-                priceOld: 13650000,
-                priceNew: 12590000,
-                code: "TOUR000004",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 3,
-                ratingTotal: 12,
-                stock: 20
-            }
-        ];
 
     .section-2(
         data-aos-delay="450"
@@ -195,7 +135,7 @@ block main
                 .inner-list
                     .swiper.swiper-section-2
                         .swiper-wrapper
-                            each item in productListSection2
+                            each item in tourListSection2
                                 .swiper-slide
                                     // Product Item
                                     +product-item(item)
@@ -220,92 +160,39 @@ block main
                             a(href="#")
                                 img(
                                     alt=""
-                                    src="/client/assets/images/banner-1.png"
+                                    src="https://res.cloudinary.com/dck5h1jtl/image/upload/v1771313787/uu-dai-tour-1_wssmb0.png"
                                 )
                     .swiper-slide
                         .inner-item
                             a(href="#")
                                 img(
                                     alt=""
-                                    src="/client/assets/images/banner-2.png"
+                                    src="https://res.cloudinary.com/dck5h1jtl/image/upload/v1771313787/uu-dai-tour-5_yfwnma.png"
                                 )
                     .swiper-slide
                         .inner-item
                             a(href="#")
                                 img(
                                     alt=""
-                                    src="/client/assets/images/banner-3.png"
+                                    src="https://res.cloudinary.com/dck5h1jtl/image/upload/v1771313787/uu-dai-tour-4_vq9xld.png"
                                 )
                     .swiper-slide
                         .inner-item
                             a(href="#")
                                 img(
                                     alt=""
-                                    src="/client/assets/images/banner-3.png"
+                                    src="https://res.cloudinary.com/dck5h1jtl/image/upload/v1771313787/uu-dai-tour-3_keveny.png"
+                                )
+                    .swiper-slide
+                        .inner-item
+                            a(href="#")
+                                img(
+                                    alt=""
+                                    src="https://res.cloudinary.com/dck5h1jtl/image/upload/v1771311655/kancclulumcksdbj1ohn.jpg"
                                 )
                 .swiper-pagination
     // End Section 3
     // Section 4
-    -
-        var productListSection4 = [
-            {
-                avatar: "/client/assets/images/product-1.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Hà Nội - Lào Cai - SaPa 4N3Đ",
-                priceOld: 13650000,
-                priceNew: 2590000,
-                code: "TOUR000001",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 4,
-                ratingTotal: 20,
-                stock: 10
-            },
-            {
-                avatar: "/client/assets/images/product-2.jpg",
-                slug: "#",
-                discount: 0,
-                name: "Tour 2026 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)",
-                priceOld: 12000000,
-                priceNew: 12000000,
-                code: "TOUR000002",
-                departureDate: "24/12/2026",
-                time: "3 Ngày 2 Đêm",
-                ratingStars: 5,
-                ratingTotal: 30,
-                stock: 15
-            },
-            {
-                avatar: "/client/assets/images/product-3.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Combo Đà Nẵng 2026: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL",
-                priceOld: 13650000,
-                priceNew: 2590000,
-                code: "TOUR000003",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 0,
-                ratingTotal: 0,
-                stock: 20
-            },
-            {
-                avatar: "/client/assets/images/product-3.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Combo Đà Nẵng 2026: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL 2",
-                priceOld: 13650000,
-                priceNew: 2590000,
-                code: "TOUR000004",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 3,
-                ratingTotal: 12,
-                stock: 20
-            }
-        ];
-
     .section-4
         .container
             h2.box-title(
@@ -317,7 +204,7 @@ block main
                 data-aos-duration="800"
                 data-aos="fade-up"
             )
-                each item in productListSection4
+                each item in tourListSection4
                     // Product Item
                     +product-item(item)
                     // End Product Item
@@ -334,70 +221,10 @@ block main
                 a(href="#")
                     img(
                         alt=""
-                        src="/client/assets/images/banner-4.png"
+                        src="https://res.cloudinary.com/dck5h1jtl/image/upload/v1771315787/banner_i0vji3.png"
                     )
     // End Section 5
     // Section 6
-    -
-        var productListSection6 = [
-            {
-                avatar: "/client/assets/images/product-1.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Hà Nội - Lào Cai - SaPa 4N3Đ",
-                priceOld: 13650000,
-                priceNew: 2590000,
-                code: "TOUR000001",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 4,
-                ratingTotal: 20,
-                stock: 10
-            },
-            {
-                avatar: "/client/assets/images/product-2.jpg",
-                slug: "#",
-                discount: 0,
-                name: "Tour 2026 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)",
-                priceOld: 12000000,
-                priceNew: 12000000,
-                code: "TOUR000002",
-                departureDate: "24/12/2026",
-                time: "3 Ngày 2 Đêm",
-                ratingStars: 5,
-                ratingTotal: 30,
-                stock: 15
-            },
-            {
-                avatar: "/client/assets/images/product-3.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Combo Đà Nẵng 2026: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL",
-                priceOld: 13650000,
-                priceNew: 2590000,
-                code: "TOUR000003",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 0,
-                ratingTotal: 0,
-                stock: 20
-            },
-            {
-                avatar: "/client/assets/images/product-3.jpg",
-                slug: "#",
-                discount: 30,
-                name: "Combo Đà Nẵng 2026: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL 2",
-                priceOld: 13650000,
-                priceNew: 2590000,
-                code: "TOUR000004",
-                departureDate: "22/12/2026",
-                time: "10 Ngày 9 Đêm",
-                ratingStars: 3,
-                ratingTotal: 12,
-                stock: 20
-            }
-        ];
-
     .section-4
         .container
             h2.box-title(
@@ -409,7 +236,7 @@ block main
                 data-aos-duration="800"
                 data-aos="fade-up"
             )
-                each item in productListSection6
+                each item in tourListSection6
                     // Product Item
                     +product-item(item)
                     // End Product Item
@@ -426,7 +253,7 @@ block main
                 a(href="#")
                     img(
                         alt=""
-                        src="/client/assets/images/banner-5.png"
+                        src="https://res.cloudinary.com/dck5h1jtl/image/upload/v1771315787/banner-2_cpvo2r.png"
                     )
     // End Section 7
     // Section 8
