@@ -370,6 +370,33 @@ module.exports.roleEditPatch = async (req, res) => {
     }
 };
 
+module.exports.roleDeletePatch = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await Role.updateOne(
+            {
+                _id: id,
+            },
+            {
+                deleted: true,
+                deletedBy: req.account.id,
+                deletedAt: Date.now(),
+            },
+        );
+
+        req.flash("success", "Xóa quyền thành công!");
+
+        res.json({
+            code: "success",
+        });
+    } catch (error) {
+        res.json({
+            code: "error",
+            message: "Id không hợp lệ!",
+        });
+    }
+};
+
 module.exports.changeMultiPatch = async (req, res) => {
     try {
         const { option, ids } = req.body;

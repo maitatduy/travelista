@@ -32,8 +32,10 @@ module.exports.verifyToken = async (req, res, next) => {
         existAccount.roleName = role.name;
 
         req.account = existAccount;
+        req.permissions = role.permissions;
 
         res.locals.account = existAccount;
+        res.locals.permissions = role.permissions;
 
         next();
     } catch (error) {
