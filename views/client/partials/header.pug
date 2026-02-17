@@ -2,15 +2,18 @@
 .top-header
     .container
         .inner-wrap
-            .inner-item
-                i.fa-solid.fa-phone
-                | 0123.456.789
-            .inner-item
-                i.fa-solid.fa-envelope
-                | contact@travelista.com
-            .inner-item
-                i.fa-solid.fa-building
-                | Số 123, đường ABC, thành phố XYZ
+            if (settingWebsiteInfo.phone)
+                .inner-item
+                    i.fa-solid.fa-phone
+                    | #{settingWebsiteInfo.phone}
+            if (settingWebsiteInfo.email)
+                .inner-item
+                    i.fa-solid.fa-envelope
+                    | #{settingWebsiteInfo.email}
+            if (settingWebsiteInfo.address)
+                .inner-item
+                    i.fa-solid.fa-building
+                    | #{settingWebsiteInfo.address}
 // End Top Header
 // Header
 header.header
@@ -21,48 +24,29 @@ header.header
                 i.fa-solid.fa-bars
             // Logo
             .inner-logo
-                a(href="index.html")
+                a(href="/")
                     img(
-                        alt="travelista"
-                        src="/client/assets/images/logo.png"
+                        alt=settingWebsiteInfo.websiteName
+                        src=settingWebsiteInfo.logo
                     )
             // Menu
             nav.inner-menu
                 ul
                     li
-                        a.active(href="index.html") Trang chủ
-                    li
-                        a(href="#") Tour trong nước
-                        i.fa-solid.fa-caret-down
-                        ul
-                            li
-                                a(href="#") Tour Miền Bắc
-                            li
-                                a(href="#") Tour Miền Trung
-                            li
-                                a(href="#") Tour Miền Nam
-                            li
-                                a(href="#") Tour Xuyên Việt
-                    li
-                        a(href="#") Tour nước ngoài
-                        i.fa-solid.fa-caret-down
-                        ul
-                            li
-                                a(href="#") Tour Châu Á
-                            li
-                                a(href="#") Tour Châu Âu
-                            li
-                                a(href="#") Tour Châu Mỹ
-                            li
-                                a(href="#") Tour Châu Úc
-                    li
-                        a(href="#") Tin tức
-                    li
-                        a(href="#") Liên hệ
+                        a.active(href="/") Trang chủ
+                    each item in categoryList
+                        li
+                            a(href=`/category/${item.slug}`) #{item.name}
+                            if item.children.length > 0
+                                i.fa-solid.fa-caret-down
+                                ul
+                                    each itemChild in item.children
+                                        li
+                                            a(href=`/category/${itemChild.slug}`) #{itemChild.name}
                 .inner-overlay
             // Cart
             .inner-cart
-                a(href="#")
+                a(href="/cart")
                     img(
                         alt="Cart"
                         src="/client/assets/images/icon-cart.svg"
