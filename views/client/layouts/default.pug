@@ -26,6 +26,10 @@ html(lang="en")
         link(href="/client/assets/css/style.css" rel="stylesheet")
         link(href=settingWebsiteInfo.favicon rel="icon" type="image/x-icon")
     body
+        - if (messages.success)
+            div(class="alert alert-success" alert-time="3000")
+                span #{messages.success}
+
         include ../partials/header.pug
 
         block main

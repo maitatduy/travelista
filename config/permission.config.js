@@ -131,4 +131,8 @@ module.exports.permissionList = [
         label: "Xóa nhóm quyền",
         value: "setting-role-delete",
     },
+    {
+        label: "Thông tin liên hệ",
+        value: "contact-view",
+    },
 ];

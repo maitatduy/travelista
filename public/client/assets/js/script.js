@@ -18,50 +18,58 @@ if (buttonMenuMobile) {
 
     // Click vào icon down mở sub menu
     const listButtonSubMenu = menu.querySelectorAll("ul > li > i");
-    listButtonSubMenu.forEach(button => {
+    listButtonSubMenu.forEach((button) => {
         button.addEventListener("click", () => {
             button.parentNode.classList.toggle("active");
-        })
+        });
     });
 }
 // End Menu Mobile
 
 // Box Address Section 1
-const boxAddressSection1 = document.querySelector(".section-1 .inner-form .inner-box.inner-address");
+const boxAddressSection1 = document.querySelector(
+    ".section-1 .inner-form .inner-box.inner-address",
+);
 if (boxAddressSection1) {
     // Ẩn/hiện box suggest
     const input = boxAddressSection1.querySelector(".inner-input");
 
     input.addEventListener("focus", () => {
         boxAddressSection1.classList.add("active");
-    })
+    });
 
     input.addEventListener("blur", () => {
         boxAddressSection1.classList.remove("active");
-    })
+    });
 
     // Sự kiện click vào từng item
-    const listItem = boxAddressSection1.querySelectorAll(".inner-suggest-list .inner-item");
-    listItem.forEach(item => {
+    const listItem = boxAddressSection1.querySelectorAll(
+        ".inner-suggest-list .inner-item",
+    );
+    listItem.forEach((item) => {
         item.addEventListener("mousedown", () => {
-            const title = item.querySelector(".inner-item-title").innerHTML.trim();
+            const title = item
+                .querySelector(".inner-item-title")
+                .innerHTML.trim();
             if (title) {
                 input.value = title;
             }
-        })
-    })
+        });
+    });
 }
 // End Box Address Section 1
 
 // Box User Section 1
-const boxUserSection1 = document.querySelector(".section-1 .inner-form .inner-box.inner-user");
+const boxUserSection1 = document.querySelector(
+    ".section-1 .inner-form .inner-box.inner-user",
+);
 if (boxUserSection1) {
     // Hiện box quantity
     const input = boxUserSection1.querySelector(".inner-input");
 
     input.addEventListener("focus", () => {
         boxUserSection1.classList.add("active");
-    })
+    });
 
     // Ẩn box quantity
     document.addEventListener("click", (event) => {
@@ -73,19 +81,23 @@ if (boxUserSection1) {
 
     // Thêm số lượng vào ô input
     const updateQuantityInput = () => {
-        const listBoxNumber = boxUserSection1.querySelectorAll(".inner-count .inner-number");
+        const listBoxNumber = boxUserSection1.querySelectorAll(
+            ".inner-count .inner-number",
+        );
         const listNumber = [];
-        listBoxNumber.forEach(boxNumber => {
+        listBoxNumber.forEach((boxNumber) => {
             const number = parseInt(boxNumber.innerHTML.trim());
             listNumber.push(number);
-        })
+        });
         const value = `NL: ${listNumber[0]}, TE: ${listNumber[1]}, EB: ${listNumber[2]}`;
         input.value = value;
-    }
+    };
 
     // Bắt sự kiện click nút up
-    const listButtonUp = boxUserSection1.querySelectorAll(".inner-count .inner-up");
-    listButtonUp.forEach(button => {
+    const listButtonUp = boxUserSection1.querySelectorAll(
+        ".inner-count .inner-up",
+    );
+    listButtonUp.forEach((button) => {
         button.addEventListener("click", () => {
             const parent = button.parentNode;
             const boxNumber = parent.querySelector(".inner-number");
@@ -93,12 +105,14 @@ if (boxUserSection1) {
             const numberUpdate = number + 1;
             boxNumber.innerHTML = numberUpdate;
             updateQuantityInput();
-        })
-    })
+        });
+    });
 
     // Bắt sự kiện click nút down
-    const listButtonDown = boxUserSection1.querySelectorAll(".inner-count .inner-down");
-    listButtonDown.forEach(button => {
+    const listButtonDown = boxUserSection1.querySelectorAll(
+        ".inner-count .inner-down",
+    );
+    listButtonDown.forEach((button) => {
         button.addEventListener("click", () => {
             const parent = button.parentNode;
             const boxNumber = parent.querySelector(".inner-number");
@@ -108,8 +122,8 @@ if (boxUserSection1) {
                 boxNumber.innerHTML = numberUpdate;
                 updateQuantityInput();
             }
-        })
-    })
+        });
+    });
 }
 // End Box User Section 1
 
@@ -143,16 +157,16 @@ if (clockExpire) {
             // % 60 Lấy phần dư khi chia tổng số giây cho 60 để chỉ lấy số giây còn lại trong phút.
 
             // Cập nhật giá trị vào thẻ span
-            const listBoxNumber = clockExpire.querySelectorAll('.inner-number');
-            listBoxNumber[0].innerHTML = `${days}`.padStart(2, '0');
-            listBoxNumber[1].innerHTML = `${hours}`.padStart(2, '0');
-            listBoxNumber[2].innerHTML = `${minutes}`.padStart(2, '0');
-            listBoxNumber[3].innerHTML = `${seconds}`.padStart(2, '0');
+            const listBoxNumber = clockExpire.querySelectorAll(".inner-number");
+            listBoxNumber[0].innerHTML = `${days}`.padStart(2, "0");
+            listBoxNumber[1].innerHTML = `${hours}`.padStart(2, "0");
+            listBoxNumber[2].innerHTML = `${minutes}`.padStart(2, "0");
+            listBoxNumber[3].innerHTML = `${seconds}`.padStart(2, "0");
         } else {
             // Khi hết thời gian, dừng đồng hồ
             clearInterval(intervalClock);
         }
-    }
+    };
 
     // Gọi hàm cập nhật đồng hồ mỗi giây
     const intervalClock = setInterval(updateClock, 1000);
@@ -160,17 +174,21 @@ if (clockExpire) {
 // End Clock Expire
 
 // Box Filter
-const buttonFilterMobile = document.querySelector(".section-9 .inner-filter-mobile");
+const buttonFilterMobile = document.querySelector(
+    ".section-9 .inner-filter-mobile",
+);
 if (buttonFilterMobile) {
     const boxLeft = document.querySelector(".section-9 .inner-left");
     buttonFilterMobile.addEventListener("click", () => {
         boxLeft.classList.add("active");
-    })
+    });
 
-    const overlay = document.querySelector(".section-9 .inner-left .inner-overlay");
+    const overlay = document.querySelector(
+        ".section-9 .inner-left .inner-overlay",
+    );
     overlay.addEventListener("click", () => {
         boxLeft.classList.remove("active");
-    })
+    });
 }
 // End Box Filter
 
@@ -180,7 +198,7 @@ if (boxTourInfo) {
     const buttonReadMore = boxTourInfo.querySelector(".inner-read-more button");
     buttonReadMore.addEventListener("click", () => {
         boxTourInfo.classList.add("active");
-    })
+    });
 
     new Viewer(boxTourInfo);
 }
@@ -193,7 +211,7 @@ AOS.init();
 // Swiper Section 2
 const swiperSection2 = document.querySelector(".swiper-section-2");
 if (swiperSection2) {
-    new Swiper('.swiper-section-2', {
+    new Swiper(".swiper-section-2", {
         slidesPerView: 1,
         spaceBetween: 20,
         autoplay: {
@@ -215,7 +233,7 @@ if (swiperSection2) {
 // Swiper Section 3
 const swiperSection3 = document.querySelector(".swiper-section-3");
 if (swiperSection3) {
-    new Swiper('.swiper-section-3', {
+    new Swiper(".swiper-section-3", {
         slidesPerView: 1,
         spaceBetween: 20,
         autoplay: {
@@ -277,72 +295,89 @@ if (boxTourSchedule) {
 // Email Form
 const emailForm = document.querySelector("#email-form");
 if (emailForm) {
-    const validation = new JustValidate('#email-form');
+    const validation = new JustValidate("#email-form");
 
     validation
-        .addField('#email-input', [
+        .addField("#email-input", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập email của bạn!',
+                rule: "required",
+                errorMessage: "Vui lòng nhập email của bạn!",
             },
             {
-                rule: 'email',
-                errorMessage: 'Email không đúng định dạng!',
+                rule: "email",
+                errorMessage: "Email không đúng định dạng!",
             },
         ])
         .onSuccess((event) => {
             const email = event.target.email.value;
-            console.log(email);
-        })
-    ;
+
+            const data = {
+                email: email,
+            };
+
+            fetch(`/contact/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.code === "error") {
+                        alert(data.message);
+                    }
+                    if (data.code === "success") {
+                        window.location.reload();
+                    }
+                });
+        });
 }
 // End Email Form
 
 // Coupon Form
 const couponForm = document.querySelector("#coupon-form");
 if (couponForm) {
-    const validation = new JustValidate('#coupon-form');
+    const validation = new JustValidate("#coupon-form");
 
-    validation
-        .onSuccess((event) => {
-            const coupon = event.target.coupon.value;
-            console.log(coupon);
-        })
-    ;
+    validation.onSuccess((event) => {
+        const coupon = event.target.coupon.value;
+        console.log(coupon);
+    });
 }
 // End Email Form
 
 // Order Form
 const orderForm = document.querySelector("#order-form");
 if (orderForm) {
-    const validation = new JustValidate('#order-form');
+    const validation = new JustValidate("#order-form");
 
     validation
-        .addField('#full-name-input', [
+        .addField("#full-name-input", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập họ tên!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập họ tên!",
             },
             {
-                rule: 'minLength',
+                rule: "minLength",
                 value: 5,
-                errorMessage: 'Họ tên phải có ít nhất 5 ký tự!',
+                errorMessage: "Họ tên phải có ít nhất 5 ký tự!",
             },
             {
-                rule: 'maxLength',
+                rule: "maxLength",
                 value: 50,
-                errorMessage: 'Họ tên không được vượt quá 50 ký tự!',
+                errorMessage: "Họ tên không được vượt quá 50 ký tự!",
             },
         ])
-        .addField('#phone-input', [
+        .addField("#phone-input", [
             {
-                rule: 'required',
-                errorMessage: 'Vui lòng nhập số điện thoại!'
+                rule: "required",
+                errorMessage: "Vui lòng nhập số điện thoại!",
             },
             {
-                rule: 'customRegexp',
+                rule: "customRegexp",
                 value: /(84|0[3|5|7|8|9])+([0-9]{8})\b/g,
-                errorMessage: 'Số điện thoại không đúng định dạng!'
+                errorMessage: "Số điện thoại không đúng định dạng!",
             },
         ])
         .onSuccess((event) => {
@@ -355,22 +390,31 @@ if (orderForm) {
             console.log(phone);
             console.log(note);
             console.log(method);
-        })
-    ;
+        });
 
     // List Input Method
     const listInputMethod = orderForm.querySelectorAll("input[name='method']");
     const elementInfoBank = orderForm.querySelector(".inner-info-bank");
 
-    listInputMethod.forEach(inputMethod => {
+    listInputMethod.forEach((inputMethod) => {
         inputMethod.addEventListener("change", () => {
             if (inputMethod.value == "bank") {
                 elementInfoBank.classList.add("active");
             } else {
                 elementInfoBank.classList.remove("active");
             }
-        })
-    })
+        });
+    });
     // End List Input Method
 }
 // End Order Form
+// Alert
+const alertTime = document.querySelector("[alert-time]");
+if (alertTime) {
+    let time = alertTime.getAttribute("alert-time");
+    time = time ? parseInt(time) : 4000;
+    setTimeout(() => {
+        alertTime.remove(); // Xóa phần tử khỏi giao diện
+    }, time);
+}
+// End Alert
