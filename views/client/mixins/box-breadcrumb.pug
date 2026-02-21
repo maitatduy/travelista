@@ -1,10 +1,11 @@
 mixin box-breadcrumb(breadcrumb)
     .box-breadcrumb
         .inner-image
-            img(
-                alt=breadcrumb.title
-                src=breadcrumb.image
-            )
+            if (breadcrumb.image)
+                img(
+                    alt=breadcrumb.title
+                    src=breadcrumb.image
+                )
         .inner-content
             .container
                 h1.inner-title #{breadcrumb.title}

@@ -17,7 +17,7 @@ module.exports.home = async (req, res) => {
         );
     }
 
-    const categoryIdSection4 = "6994011ac4fb6ce2fa34a8d3"; // ID danh mục Tour Trong Nước
+    const categoryIdSection4 = "6993dbc0df0c692668ee343b"; // ID danh mục Tour Trong Nước
     const listCategoryId =
         await categoryHelper.getAllSubcategoryIds(categoryIdSection4);
 
