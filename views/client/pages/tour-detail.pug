@@ -82,7 +82,7 @@ block main
                                 span.inner-highlight 20/10/2026
                         .inner-form
                             label.inner-label Khởi Hành Tại:
-                            select
+                            select(location-from)
                                 each item in cityList
                                     option(value=item.id) #{item.name}
                         .inner-quantity
@@ -95,10 +95,12 @@ block main
                                             value="1"
                                             min="0"
                                             max=tourDetail.stockAdult
+                                            input-stock-adult
+                                            price=tourDetail.priceNewAdult
                                             type="number"
                                         )
                                     .inner-item-price
-                                        span 1
+                                        span(stock-adult) 1
                                         span x
                                         span.inner-highlight #{tourDetail.priceNewAdult.toLocaleString("vi-VN")}
                                 .inner-item
@@ -108,10 +110,12 @@ block main
                                             value="0"
                                             min="0"
                                             max=tourDetail.stockChildren
+                                            input-stock-children
+                                            price=tourDetail.priceNewChildren
                                             type="number"
                                         )
                                     .inner-item-price
-                                        span 0
+                                        span(stock-children) 0
                                         span x
                                         span.inner-highlight #{tourDetail.priceNewChildren.toLocaleString("vi-VN")}
                                 .inner-item
@@ -121,14 +125,19 @@ block main
                                             value="0"
                                             min="0"
                                             max=tourDetail.stockBaby
+                                            input-stock-baby
+                                            price=tourDetail.priceNewBaby
                                             type="number"
                                         )
                                     .inner-item-price
-                                        span 0
+                                        span(stock-baby) 0
                                         span x
                                         span.inner-highlight #{tourDetail.priceNewBaby.toLocaleString("vi-VN")}
                         .inner-total
                             .inner-total-label Tổng cộng:
-                            .inner-total-price #{tourDetail.priceNewAdult.toLocaleString("vi-VN")}đ
-                        button.inner-button-add-cart Thêm Vào Giỏ Hàng
+                            .inner-total-price
+                                span(total-price) #{tourDetail.priceNewAdult.toLocaleString("vi-VN")}
+                                span đ
+                        button.inner-button-add-cart(tour-id=tourDetail.id) Thêm Vào Giỏ
+
     // End Section 10
