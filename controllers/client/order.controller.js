@@ -2,7 +2,7 @@ const Tour = require("../../models/tour.model");
 const Order = require("../../models/order.model");
 const City = require("../../models/city.model");
 
-const variableHelper = require("../../config/variable.config");
+const variableConfig = require("../../config/variable.config");
 const gererateHelper = require("../../helpers/generate.helper");
 
 const moment = require("moment");
@@ -115,15 +115,15 @@ module.exports.success = async (req, res) => {
             return;
         }
 
-        orderDetail.paymentMethodName = variableHelper.paymentMethod.find(
+        orderDetail.paymentMethodName = variableConfig.paymentMethod.find(
             (item) => item.value == orderDetail.paymentMethod,
         ).label;
 
-        orderDetail.paymentStatusName = variableHelper.paymentStatus.find(
+        orderDetail.paymentStatusName = variableConfig.paymentStatus.find(
             (item) => item.value == orderDetail.paymentStatus,
         ).label;
 
-        orderDetail.statusName = variableHelper.orderStatus.find(
+        orderDetail.statusName = variableConfig.orderStatus.find(
             (item) => item.value == orderDetail.status,
         ).label;
 

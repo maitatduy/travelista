@@ -55,46 +55,48 @@ block main
                         th(class="inner-center") Ngày đặt
                         th Hành động
                 tbody
-                    tr
-                        td
-                            .inner-code OD000001
-                        td
-                            div Họ tên: Lê Văn A
-                            div SĐT: 0123456789
-                            div Ghi chú: Test...
-                        td
-                            .inner-item
-                                .inner-image
-                                    img(src="/admin/assets/images/tour-1.jpg", alt="Tour Hạ Long")
-                                .inner-content
-                                    .inner-name Tour Hạ Long
-                                    .inner-quantity Người lớn: 3 x 1.500.000đ
-                                    .inner-quantity Trẻ em: 2 x 1.300.000đ
-                                    .inner-quantity Em bé: 2 x 1.000.000đ
-                            .inner-item
-                                .inner-image
-                                    img(src="/admin/assets/images/tour-1.jpg", alt="Tour Hạ Long")
-                                .inner-content
-                                    .inner-name Tour Hạ Long
-                                    .inner-quantity Người lớn: 3 x 1.500.000đ
-                                    .inner-quantity Trẻ em: 2 x 1.300.000đ
-                                    .inner-quantity Em bé: 2 x 1.000.000đ
-                        td
-                            div Tổng tiền: 10.000.000đ
-                            div Giảm: 400.000đ
-                            div Mã giảm: TOURMUAHE2024
-                            div Thanh toán: 9.600.000đ
-                            div PTTT: Ví Momo
-                            div TTTT: Đã thanh toán
-                        td
-                            .badge.badge-orange Khởi tạo
-                        td(class="inner-center")
-                            div 16:20
-                            div 01/01/2024
-                        td
-                            .inner-buttons
-                                button(class="inner-edit") <i class="fa-regular fa-pen-to-square"></i>
-                                button(class="inner-delete") <i class="fa-regular fa-trash-can"></i>
+                    each orderDetail in orderList
+                        tr
+                            td
+                                .inner-code #{orderDetail.orderCode}
+                            td
+                                div Họ tên: #{orderDetail.fullName}
+                                div SĐT: #{orderDetail.phone}
+                                div Ghi chú: #{orderDetail.note}
+                            td
+                                each item in orderDetail.items
+                                    .inner-item
+                                        .inner-image
+                                            img(src=item.avatar, alt=item.name)
+                                        .inner-content
+                                            .inner-name #{item.name}
+                                            .inner-quantity Người lớn: #{item.quantityAdult} x #{item.priceNewAdult.toLocaleString("vi-VN")}đ
+                                            .inner-quantity Trẻ em: #{item.quantityChildren} x #{item.priceNewChildren.toLocaleString("vi-VN")}đ
+                                            .inner-quantity Em bé: #{item.quantityBaby} x #{item.priceNewBaby.toLocaleString("vi-VN")}đ
+                            td
+                                div Tạm tính: #{orderDetail.subTotal.toLocaleString("vi-VN")}đ
+                                div Giảm: #{orderDetail.discount.toLocaleString("vi-VN")}đ
+                                //- div Mã giảm: TOURMUAHE2024
+                                div Thanh toán: 9.600.000đ
+                                div Thanh toán: #{orderDetail.total.toLocaleString("vi-VN")}đ
+                                div TTTT: #{orderDetail.paymentStatusName}
+                            td
+                                if (orderDetail.status == "initial")
+                                    .badge.badge-orange #{orderDetail.statusName}
+                                else if (orderDetail.status == "done")
+                                    .badge.badge-green #{orderDetail.statusName}
+                                else if (orderDetail.status == "cancel")
+                                    .badge.badge-red #{orderDetail.statusName}
+                            td(class="inner-center")
+                                div #{orderDetail.createdAtTime}
+                                div #{orderDetail.createdAtDate}
+                            td
+                                .inner-buttons
+                                    a(
+                                        href=`/${pathAdmin}/order/edit/${orderDetail.id}`
+                                        class="inner-edit"
+                                    ) <i class="fa-regular fa-pen-to-square"></i>
+                                    button(class="inner-delete") <i class="fa-regular fa-trash-can"></i>
     //- End Section 6
 
     //- Section 7
