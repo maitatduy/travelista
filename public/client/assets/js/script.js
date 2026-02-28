@@ -444,6 +444,10 @@ if (orderForm) {
                                 case "zalopay":
                                     window.location.href = `/order/payment-zalopay?orderId=${data.orderId}`;
                                     break;
+                                case "vnpay":
+                                    // Chuyển hướng sang trang thanh toán bằng VNPay
+                                    window.location.href = `/order/payment-vnpay?orderId=${data.orderId}`;
+                                    break;
                             }
                         }
                     });
