@@ -6,6 +6,10 @@ module.exports.paymentMethod = [
         value: "money",
     },
     {
+        label: "Zalopay",
+        value: "zalopay",
+    },
+    {
         label: "Ví MoMo",
         value: "momo",
     },

@@ -13,6 +13,7 @@ const schema = new Schema(
         paymentStatus: String,
         status: String,
         updatedBy: String,
+        orderCode: String,
         discount: {
             type: Number,
             default: 0,
